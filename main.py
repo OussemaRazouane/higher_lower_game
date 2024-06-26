@@ -4,25 +4,29 @@ from game_data import*
 import random
 
 per_data = data
-
-def affichage(a:dict):
+b_ref=0
+def affichage(a:dict,c:str):
     """Print the message in this form name..."""
-    print(f"Compare A: {a["name"]}, a {a["description"]}, from {a["country"]}.")
+    print(f"Compare {c}: {a["name"]}, a {a["description"]}, from {a["country"]}.")
 
 def game(sc:int):
+    global b_ref
     if per_data:
         clear()
         print(art.logo)
         if sc!=0:
             print(f"You're right! Current score: {sc}.")
-        a=random.choice(per_data)
-        per_data.remove(a)
+            a=b_ref
+        else:
+            a=random.choice(per_data)
+            per_data.remove(a)
         b=random.choice(per_data)
         per_data.remove(b)
-        affichage(a)
+        b_ref=b
+        affichage(a,'A')
         print(art.vs)
-        affichage(b)
-        anser=input("Who has more followers? Type 'A' or 'B'")
+        affichage(b,'B')
+        anser=input("Who has more followers? Type 'A' or 'B'").upper()
         if anser=="A" and a["follower_count"]>b["follower_count"]:
             game(sc+1)
         elif anser=="B" and b["follower_count"]>a["follower_count"]:
